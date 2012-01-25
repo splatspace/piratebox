@@ -1,0 +1,6 @@
+Files
+=====
+* /bin/droopy
+* /etc/init.d/piratebox_start
+* /var/lib/update-rc.d/piratebox_start
+* /opt/piratebox/chat/pirateboxchat_start.py

@@ -1,0 +1,31 @@
+#! /bin/sh
+# /etc/init.d/piratebox_start
+### BEGIN INIT INFO
+# Provides:          scriptname
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start daemon at boot time
+# Description:       Enable service provided by daemon.
+### END INIT INFO
+
+#Run droopy on port 80
+python /bin/droopy -m "<b>1.</b> Learn more about the project <a href="http://piratebox.local:8001/.READ.ME.htm" target="_parent" ><b>here</b></a>."\
+"<p><b>2.</b> Click button below to begin sharing.</p>"\
+"<b>3.</b> Browse and download files <a href="http://piratebox.local:8001" target="_parent"><b>here</b></a>.<br>"\
+ -p /mnt/share/piratebox/piratebox-logo-small.png -d /mnt/share/piratebox &
+
+#Serve up piratebox chat on port 8002
+cd /opt/piratebox/chat; python pirateboxchat_start.py &
+
+#Serve up the shared directory on port 8001
+cd /mnt/share/piratebox; python webserver.py 8001 &
+
+#Remove any tmp files left behind from past uploads
+rm /mnt/share/piratebox/tmp*
+
+#Delete chat logs and add welcome message
+echo "<date>00:00:00</date>&nbsp;&nbsp;<name>PirateBox:</name>&nbsp;&nbsp;&nbsp;<data class='def'>Chat and share files anonymously!</data><br>" > /opt/piratebox/chat/cgi-bin/data.pso &&
+
+exit 0
